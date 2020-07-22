@@ -18,24 +18,31 @@
   #bbb {
     background-color: rgb(248,248,255);
   }
-  #summary-table{
-    margin-left: 10px;
-    margin-right: 10px;
+  
+  #bbb {
+    background-color: rgb(248,248,255);
   }
-  td{
-  padding-left: 20px;
-  padding-right: 10px;
-  text-align: left;
-  color: rgb(79, 80, 82);
-}
-table, td {
-  border: 1px dotted rgb(111, 113, 114);
-} 
+
+  #mainb {
+    background-color: rgb(227, 227, 231);
+  }
+
+#summary-list {
+    margin-left: 10px;
+    padding-left: 1px;
+    text-align: left;
+  }
+  body {
+      margin-top: 0px; 
+      padding-top: 0px;  
+      background: rgb(155, 192, 183);
+      background: url('https://upload.wikimedia.org/wikipedia/commons/3/32/EscherichiaColi_NIAID.jpg') 
+      }
 
 </style>
 <body>
 
-  <div class="container">
+  <div class="container" id="mainb">
     <div class="row">
       <div class="col-md-12 jumbotron text-center" id="bbb">
         <h1>Belly Button Biodiversity Dashboard</h1>
@@ -48,28 +55,26 @@ table, td {
           <h5>Test Subject ID No.:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" id="metadata-container"> 
           <div class="panel-heading">
             <h3 class="panel-title">Demographic Info</h3>
           </div>
-          
           <div id="sample-metadata" class="panel-body">
-            <table class="responsive" id="summary-table"> 
-              <tbody></tbody>
-            </table> 
+              <ul id="summary-list">
+                <li></li>
+              </ul>
           </div>
-
         </div>
       </div>
       <div class="col-md-5">
         <div id="bar"></div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 text-center">
+        <h4>Belly Button Washing Frequency</h4>
         <div id="gauge"></div>
       </div>
-    </div>
-
-    <div class="row">
+    </div> 
+    <div class="row"> 
       <div class="container" id="plot2">
         <div class="col-md-12">
           <div id="bubble"></div>
@@ -82,8 +87,7 @@ table, td {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>
-  <!-- <script src="./static/js/bonus.js"></script> -->
-  <script src="samples.json"></script>
+  <script src="./static/js/samples.json"></script>
   
 </body>
 

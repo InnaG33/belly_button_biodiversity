@@ -5,12 +5,16 @@ function optionChanged (value) {
 }
 
 function Charts (id) {
-    d3.json("samples.json").then((importedData) => {
+    d3.json("./static/js/samples.json").then((importedData) => {
         var filteredData = importedData.samples.filter(item => item.id === id);
        
         var sampleValues = filteredData[0].sample_values;
         var otuIds = filteredData[0].otu_ids;
         var otuLabels = filteredData[0].otu_labels;
+        
+        var filteredData = importedData.metadata.filter(item => item.id === parseInt(id));
+        var wfreq = filteredData[0].wfreq;
+        console.log(wfreq);
         // console.log(`otuIds: ${otuIds}`);
         // console.log(`Labels: ${otuLabels}`);
         // console.log(`Values are: ${sampleValues}`);
@@ -22,8 +26,8 @@ function Charts (id) {
             otuIDsText.push(result);
             };
         var trace1 = {
-            x : sampleValues,
-            y : otuIDsText,
+            x : sampleValues.slice(0, 10).reverse(),
+            y : otuIDsText.slice(0, 10).reverse(),
             type: 'bar',
             marker: {
                 color: 'rgba(50,171,96,0.6)',
@@ -38,7 +42,7 @@ function Charts (id) {
 
         var layout1 = {
             xaxis: {
-              range: [0, 180],
+              range: [0, 200],
             //   domain: [0, 10],
               zeroline: false,
               showline: false,
@@ -51,8 +55,8 @@ function Charts (id) {
               t: 50,
               b: 50
             },
-            width: 600,
-            height: 600,
+            // width: 600,
+            // height: 600,
             paper_bgcolor: 'rgb(250,250,240)',
             plot_bgcolor: 'rgb(248,248,255)',
           };
@@ -98,14 +102,47 @@ function Charts (id) {
         var data2 = [trace2];
 
         Plotly.newPlot("bubble", data2, layout2);
+
+        var data3 = [
+          {
+            domain: { x: [0, 1], y: [0, 1] },
+            value: wfreq,
+            title: { text: "Scrubs per Week", font: { size: 18 } },
+            type: "indicator",
+            mode: "gauge+number+delta",
+            delta: { reference: 5 },
+            gauge: {
+              axis: { range: [null, 10], tickwidth: 2, tickcolor: "darkblue" },
+              bar: { color: "darkblue" },
+              // bgcolor: "white",
+              borderwidth: 1,
+              bordercolor: "gray",
+              steps: [
+                { range: [0, 1], color: "gray" },
+                { range: [1, 2], color: "lightgray" },
+                { range: [2, 3], color: "beige" },
+                { range: [3, 4], color: "lightblue" },
+                { range: [4, 5], color: "skyblue" },
+                { range: [5, 6], color: "lightgreen" },
+                { range: [6, 7], color: "yellowgreen" },
+                { range: [7, 8], color: "yellow" },
+                { range: [8, 9], color: "orange" },
+                { range: [9, 10], color: "red" },
+              ]
+            }
+          }
+        ];
+        
+        var layout3 = { width: 450, height: 300, paper_bgcolor: 'rgb(248,248,295)', margin: { t: 0, b: 0 } };
+        Plotly.newPlot('gauge', data3, layout3);
     });
 }
 
 function buildPlot() {
 
-    d3.json("samples.json").then((importedData) => {
+    d3.json("./static/js/samples.json").then((importedData) => {
         
-        var names = importedData.names
+        var names = importedData.names;
         // console.log(names);
         var selectedName = d3.select("#selDataset");
         names.forEach((name => {
@@ -124,11 +161,8 @@ function buildPlot() {
   buildPlot();
 
 function buildTable(id) {
-    d3.json("samples.json").then((importedData) => {
+    d3.json("./static/js/samples.json").then((importedData) => {
     var TableData = importedData.metadata.filter(item => item.id === parseInt(id));
-    // var filteredTable = TableData.filter(item => item.id === parseInt(id));
-
-    // console.log(`filtered Table Data : ${TableData[0].age}`);
     
     var table = d3.select("#summary-list");
     var tlist = table.select("li");
